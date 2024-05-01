@@ -21,6 +21,20 @@ h1, h2, h3, h4, h5, h6 {
   color: #004463;
 }
 
+a {
+  color: #004463;
+}
+
+button {
+  /* background-color: #004463; */
+  background-color: #33814a;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 footer {
   padding: 10px;
 }
@@ -75,13 +89,30 @@ nav ul li a {
 /* HOME PAGE */
 .upgrades img{
   background-color: #004463;
+  background-color: #33814a;
+}
+
+#features {
+  /* background-color: #abcede; */
+  /* rgba version of #abcede */
+  /* background-color: rgba(171, 206, 222, 0.5); */
+  background-color: #33814a;
+  /* rgba version of #33814a */
+  background-color: rgba(51, 129, 74, 0.2);
+  width: max-content;
+  padding: 10px;
+}
+
+#features h2 {
+  color: #33814a;
+  margin-top: 0;
 }
 
 
 /* MEDIA QUERY */
 @media (min-width: 768px) {
   :root {
-    background-image: url("../images/site/small_check.jpg");
+    /* background-image: url("../images/site/small_check.jpg"); */
     background-size: cover;
   }
   
@@ -89,10 +120,10 @@ nav ul li a {
     flex-direction: row;
   }
 
-  body {
-    width: 80%;
+  main {
+    width: 60%;
     margin: auto;
-    border-radius: 5px;
-    border: solid 5px #004463;
+    /* border-radius: 5px; */
+    /* border: solid 5px #004463; */
   }
 }
