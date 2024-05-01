@@ -1,6 +1,98 @@
-/******* Change Box Model ***************/
+/* GENERAL */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+body {
+  background-color: white;
+  font-family: Roboto;
+  margin: 0;
+}
+
+main {
+  margin: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #004463;
+}
+
+footer {
+  padding: 10px;
+}
+
+
+/* HEADER */
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.siteName a {
+  text-decoration: none;
+  color: #004463;
+  font-size: 2.5em;
+  font-weight: 900;
+}
+
+#tools {
+  display: flex;
+  align-items: center;
+}
+
+#tools a {
+  color: #004463;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+
+/* NAV */
+nav {
+  width: 100%;
+}
+nav ul {
+  background-color: #004463;
+  display: flex;
+  /* flex-direction: column; */
+  text-align: center;
+  justify-content: space-evenly;
+  list-style: none;
+  padding: 10px 0;
+}
+nav ul li a {
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+
+/* HOME PAGE */
+.upgrades img{
+  background-color: #004463;
+}
+
+
+/* MEDIA QUERY */
+@media (min-width: 768px) {
+  :root {
+    background-image: url("../images/site/small_check.jpg");
+    background-size: cover;
+  }
+  
+  nav ul {
+    flex-direction: row;
+  }
+
+  body {
+    width: 80%;
+    margin: auto;
+    border-radius: 5px;
+    border: solid 5px #004463;
+  }
 }
