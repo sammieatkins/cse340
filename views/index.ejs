@@ -1,38 +1,46 @@
 <h1>Welcome to CSE Motors!</h1>
 <!-- Alt text unnecessary, decorative image -->
-<img src="/images/vehicles/delorean.jpg" alt="test" />
+<!-- In production, the server points to the public folder. Do file path as if index.ejs is in the public folder. -->
+<!-- <img src="/images/vehicles/delorean.jpg" alt="test" /> -->
 
-<section id="features">
-  <h2>DMC Delorean</h2>
-  <p>3 Cup holders</p>
-  <p>Superman doors</p>
-  <p>Fuzzy dice!</p>
-  <button>Own Today</button>
-</section>
+<!-- <script src="https://kit.fontawesome.com/23d805c155.js" crossorigin="anonymous"></script> -->
+<!-- div is for absolute positioning -->
+<div class="hero">
+  <section id="features">
+    <h2>DMC <br> Delorean</h2>
+    <p>3 Cup holders</p>
+    <p>Superman doors</p>
+    <p>Fuzzy dice!</p>
+    <button>Own Today</button>
+  </section>
+</div>
 
-<h2>DMC Delorean Reviews</h2>
-<ul>
-  <li>"So fast it's almost like traveling in time." (4/5)</li>
-  <li>"Coolest ride on the road." (4/5)</li>
-  <li>"I'm feeling McFly!" (5/5)</li>
-  <li>"The most futuristic ride of our day." (4.5/5)</li>
-  <li>"80's livin and I love it!" (5/5)</li>
-</ul>
+<div class="grid">
+  <div class="reviews">
+    <h2>DMC Delorean Reviews</h2>
+    <ul>
+      <li>"So fast it's almost like traveling in time." (4/5)</li>
+      <li>"Coolest ride on the road." (4/5)</li>
+      <li>"I'm feeling McFly!" (5/5)</li>
+      <li>"The most futuristic ride of our day." (4.5/5)</li>
+      <li>"80's livin and I love it!" (5/5)</li>
+    </ul>
+  </div>
 
-<h2>Delorean Upgrades</h2>
-<section class="upgrades">
-  <img src="/images/upgrades/flux-cap.png" alt="" />
-  <a href="#">Flux Capacitor</a>
-</section>
-<section class="upgrades">
-  <img src="/images/upgrades/flame.jpg" alt="" />
-  <a href="#">Flame Decals</a>
-</section>
-<section class="upgrades">
-  <img src="/images/upgrades/bumper_sticker.jpg" alt="" />
-  <a href="#">Bumper Stickers</a>
-</section>
-<section class="upgrades">
-  <img src="/images/upgrades/hub-cap.jpg" alt="" />
-  <a href="#">Hub Caps</a>
-</section>
+  <div class="upgrades">
+    <h2>Delorean Upgrades</h2>
+    <section>
+      <a href="#"><img src="/images/upgrades/flux-cap.png" alt="" /><br>Flux Capacitor</a>
+    </section>
+    <section>
+      <a href="#"><img src="/images/upgrades/flame.jpg" alt="" /><br>Flame Decals</a>
+    </section>
+    <section>
+      <a href="#"><img src="/images/upgrades/bumper_sticker.jpg" alt="" /><br>Bumper Stickers</a>
+    </section>
+    <section>
+      <a href="#"><img src="/images/upgrades/hub-cap.jpg" alt="" /><br>Hub Caps</a>
+    </section>
+  </div>
+</div>
+<!-- <i class="fa-solid fa-fire"></i> -->
