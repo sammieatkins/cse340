@@ -130,9 +130,24 @@ nav ul li a {
 } */
 
 .upgrades img{
-  background-color: #004463;
-  /* background-color: #33814a; */
+  width: 50px;
 }
+
+/* #bumper {
+
+} */
+
+#flux {
+  width: 35px;
+}
+
+#flame {
+  width: 30px;
+}
+
+/* #caps {
+
+} */
 
 #features {
   background-color: #abcede;
