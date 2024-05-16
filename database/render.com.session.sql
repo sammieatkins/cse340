@@ -1,0 +1,1 @@
+-- Paste code from the db-sql-code.sql to rebuild the database.

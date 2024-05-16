@@ -232,3 +232,16 @@ VALUES   (
     'White',
     5
   );
+
+-- Query 4 (Modify)
+UPDATE 
+  inventory 
+SET 
+  inventory_description = REPLACE(inventory_description, 'small interiors', 'a huge interior')
+WHERE 
+  inventory_make = 'GM';
+
+-- Query 6 (File Path)
+UPDATE inventory
+	SET inventory_image = REPLACE(inventory_image, 'images/', 'images/vehicles/'),
+	inventory_thumbnail = REPLACE(inventory_image, 'images/', 'images/vehicles/');

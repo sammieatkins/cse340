@@ -1,0 +1,1 @@
+SELECT account_firstname FROM account WHERE account_lastname LIKE 'A%'
