@@ -18,3 +18,8 @@ node_modules
 
 # README.md removal.
 README.md
+
+# Debugging config file
+.vscode
+.vscode/*
+launch.json
