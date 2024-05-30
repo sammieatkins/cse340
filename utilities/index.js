@@ -40,7 +40,6 @@ Util.buildClassificationGrid = async function(data){
       +'" alt="'+ vehicle.inventory_make + ' ' + vehicle.inventory_model 
       +'" /></a>'
       grid += '<div class="namePrice">'
-      grid += '<hr />'
       grid += '<h2>'
       grid += '<a href="../../inv/detail/' + vehicle.inventory_id +'" title="View ' 
       + vehicle.inventory_make + ' ' + vehicle.inventory_model + ' details">' 
@@ -57,5 +56,27 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+// Build a custom function in the utilities > index.js file that will take the specific vehicle's information and wrap it up in HTML to deliver to the view
+Util.buildSingleView = async function(data){
+  let singleView = '<section id="inv-single">'
+  singleView += '<h1>' + data.inventory_make + ' ' + data.inventory_model + '</h1>'
+  singleView += '<img src="' + data.inventory_image + '" alt="' + data.inventory_make + ' ' + data.inventory_model + '" />'
+    singleView += '<section id="inv-details">'
+      singleView += '<p>' + data.inventory_description + '</p>'
+      singleView += '<p><span class="bold">Price:</span> $' + new Intl.NumberFormat('en-US').format(data.inventory_price) + '</p>'
+      singleView += '<p><span class="bold">Color:</span> ' + data.inventory_color + '</p>'
+      singleView += '<p><span class="bold">Year:</span> ' + data.inventory_year + '</p>'
+    singleView += '</section>'
+  singleView += '</section>'
+  return singleView
+}
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
 module.exports = Util
