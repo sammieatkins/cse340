@@ -26,7 +26,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
 invCont.buildSingleView = async function (req, res, next) {
   const inventory_id = req.params.inventoryId
   const singleData = await invModel.getInventoryById(inventory_id)
-  console.log(singleData)
+  // console.log(singleData)
   let nav = await utilities.getNav()
   let singleView = await utilities.buildSingleView(singleData)
   res.render("./inventory/single", {
