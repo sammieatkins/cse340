@@ -8,15 +8,13 @@
 }
 
 body {
-  background-color: white;;
+  background-color: white;
   font-family: Roboto;
   margin: 0;
 }
 
 main {
   padding: 10px;
-  /* width: 80%; */
-  /* margin: auto; */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -30,7 +28,6 @@ a {
 
 button {
   background-color: #004463;
-  /* background-color: #33814a; */
   color: white;
   padding: 10px;
   border: none;
@@ -69,7 +66,6 @@ footer a {
   list-style: none;
 }
 
-
 /* HEADER */
 #top-header {
   display: flex;
@@ -102,7 +98,6 @@ footer a {
   text-transform: uppercase;
 }
 
-
 /* NAV */
 nav {
   width: 100%;
@@ -110,7 +105,6 @@ nav {
 nav ul {
   background-color: #004463;
   display: flex;
-  /* flex-direction: column; */
   text-align: center;
   justify-content: space-evenly;
   list-style: none;
@@ -121,7 +115,6 @@ nav ul li a {
   text-align: center;
   text-decoration: none;
 }
-
 
 /* HOME PAGE */
 .upgrades {
@@ -143,7 +136,7 @@ nav ul li a {
   width: 100%;
 }
 
-.upgrades img{
+.upgrades img {
   width: 50px;
 }
 
@@ -157,11 +150,7 @@ nav ul li a {
 
 #features {
   background-color: #abcede;
-  /* rgba version of #abcede */
   background-color: rgba(171, 206, 222, 0.5);
-  /* background-color: #33814a; */
-  /* rgba version of #33814a */
-  /* background-color: rgba(51, 129, 74, 0.2); */
   width: max-content;
   padding: 10px;
   border-radius: 5px;
@@ -188,19 +177,17 @@ nav ul li a {
   list-style: none;
   margin: 10px;
   padding: 10px;
-  /* border: solid 1px #004463; */
   border-radius: 5px;
   background-color: #004463;
   color: white;
   width: max-content;
-
 }
 
 /* INVENTORY DISPLAY */
 #inv-display {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
   padding: 0;
 }
 #inv-display li {
@@ -210,7 +197,6 @@ nav ul li a {
   padding: 10px;
   list-style: none;
   text-align: center;
-  max-width: 25%;
 }
 #inv-display li a img {
   padding-bottom: 10px;
@@ -232,7 +218,6 @@ nav ul li a {
 }
 #inv-single p {
   grid-column: 2/3;
-  /* grid-row: 1/2; */
 }
 .bold {
   font-weight: bold;
@@ -288,7 +273,6 @@ form input {
 }
 form a {
   color: white;
-  /* use text decoration */
   text-decoration: underline;
 }
 form p {
@@ -337,5 +321,16 @@ form p {
   }
   .form-pair {
     width: 90%;
+  }
+
+  /* INVENTORY DISPLAY */
+  #inv-display {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  #inv-display {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
