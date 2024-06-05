@@ -54,6 +54,21 @@ footer a {
   color: white;
 }
 
+/* flash messages automatically add a "notice" class to the <ul> (the actual message is in an <li>) */
+.notice {
+  background-color: #004463;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  width: max-content;
+  margin: 20px auto;
+}
+
+.notice li {
+  list-style: none;
+}
+
 
 /* HEADER */
 #top-header {
@@ -228,50 +243,99 @@ nav ul li a {
   text-align: center;
 }
 
+/* LOGIN */
+form {
+  display: flex;
+  flex-direction: column;
+  background-color: #004463;
+  border-radius: 5px;
+  color: white;
+  width: 60%;
+  margin: auto;
+  padding: 10px;
+  align-items: center;
+}
+.form-pair {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 80%;
+}
+form label {
+  text-align: left;
+  margin: 5px 0px;
+}
+.form-button {
+  background-color: white;
+  color: #004463;
+  margin: 15px auto 10px auto;
+  border-radius: 35px;
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 6em;
+  justify-self: center;
+}
+.required::after {
+  content: " *";
+  color: white;
+}
+form input {
+  height: 2em;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+form a {
+  color: white;
+  /* use text decoration */
+  text-decoration: underline;
+}
+form p {
+  margin: 0;
+}
+
 /* MEDIA QUERY */
 @media (min-width: 768px) {
   :root {
     background-size: cover;
   }
-  
   nav ul {
     flex-direction: row;
   }
-
   main {
-    /* width: 60%; */
     margin: auto;
-    /* border-radius: 5px; */
-    /* border: solid 5px #004463; */
   }
-
   .hero {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     height: 160vh;
   }
-
   #features {
     margin-left: 15%;
   }  
-
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
-
   .upgrades {
     grid-column: 1/2;
     grid-row: 1/2;
   }
-
   .upgrades section {
     margin: 1.3em;
   }
-
   .reviews {
     grid-column: 2/3;
     grid-row: 1/2;
+  }
+
+  /* FORM */
+  form {
+    width: 40%;
+  }
+  .form-pair {
+    width: 90%;
   }
 }

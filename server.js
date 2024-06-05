@@ -11,10 +11,35 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const static = require("./routes/static")
 const inventoryRoute = require("./routes/inventoryRoute")
+const accountsRoute = require("./routes/accountsRoute")
 const baseController = require("./controllers/baseController")
 const utilities = require("./utilities")
+const session = require("express-session")
+const pool = require('./database/')
+
 
 const app = express()
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
 
 /* ***********************
  * View Engine and Templates
@@ -33,6 +58,8 @@ app.use(static)
 app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", utilities.handleErrors(inventoryRoute))
+// Account routes
+app.use("/account", utilities.handleErrors(accountsRoute))
 // 404 route
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page :('})
