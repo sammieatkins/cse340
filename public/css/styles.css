@@ -257,7 +257,7 @@ form label {
   border-radius: 35px;
   text-transform: uppercase;
   font-weight: bold;
-  width: 6em;
+  width: auto;
   justify-self: center;
 }
 .required::after {
@@ -265,7 +265,7 @@ form label {
   color: white;
 }
 form input {
-  height: 2em;
+  height: 2.5em;
   border-radius: 5px;
   border: none;
   padding: 5px;
@@ -277,6 +277,43 @@ form a {
 }
 form p {
   margin: 0;
+}
+form input::placeholder {
+  color: grey;
+}
+input:required:invalid, input:focus:invalid {
+  background-image: url(/images/invalid.png);
+  background-position: right top;
+  background-repeat: no-repeat;
+ }
+  input:required:valid {
+  background-image: url(/images/valid.png);
+  background-position: right top;
+  background-repeat: no-repeat;
+  }
+
+
+/* REGISTRATION */
+#password-container {
+  position: relative;
+}
+#password-button {
+  background: none;
+  position: absolute;
+  right: 5px;
+  top: 46%;
+  transform: translateY(-50%);
+  text-transform: none;
+  color: rgb(197, 197, 197);
+  font-weight: normal;
+  font-size: 1em;
+}
+form h3 {
+  color: white;
+  margin-bottom: 0;
+}
+form ul {
+  margin-top: 5px;
 }
 
 /* MEDIA QUERY */

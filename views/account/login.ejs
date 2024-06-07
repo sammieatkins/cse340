@@ -3,19 +3,18 @@
     <% } else {
       res.redirect('/')
     } %>
-
 <%- messages() %> <!-- Flash messages -->
 
 <!-- Display a login HTML form that accepts an email address (this will be the username) and password. -->
 <form>
     <p class="form-pair">
         <label for="account_email" class="required">Email</label>
-        <input type="email" id="account_email" name="account_email" class="form-input" required>
+        <input type="email" id="account_email" name="account_email" class="form-input" required placeholder="Enter your email address">
     </p>
     <p class="form-pair">
         <label for="account_password" class="required">Password</label>
-        <input type="password" id="account_password" name="account_password" class="form-input" required>
+        <input type="password" id="account_password" name="account_password" class="form-input" required placeholder="Enter your password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
     </p>
     <button type="submit" class="form-button">Login</button>
-    <p>No account? <a>Sign Up</a></p>
+    <p>No account? <a href="/account/registration">Sign Up</a></p>
 </form>

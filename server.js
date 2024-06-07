@@ -11,11 +11,12 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const static = require("./routes/static")
 const inventoryRoute = require("./routes/inventoryRoute")
-const accountsRoute = require("./routes/accountsRoute")
+const accountsRoute = require("./routes/accountRoute")
 const baseController = require("./controllers/baseController")
 const utilities = require("./utilities")
 const session = require("express-session")
 const pool = require('./database/')
+const bodyParser = require("body-parser")
 
 
 const app = express()
@@ -40,6 +41,9 @@ app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 /* ***********************
  * View Engine and Templates

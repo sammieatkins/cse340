@@ -17,6 +17,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
     title: className + " vehicles",
     nav,
     grid,
+    errors: null,
   })
 }
 
@@ -32,7 +33,8 @@ invCont.buildSingleView = async function (req, res, next) {
   res.render("./inventory/single", {
     title: singleData.inventory_make + " " + singleData.inventory_model,
     nav,
-    singleView
+    singleView,
+    errors: null,
   })
 }
 
