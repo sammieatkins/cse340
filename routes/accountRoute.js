@@ -1,9 +1,9 @@
 // Needed Resources
 const express = require("express");
 const router = new express.Router();
-const accountController = require("../controllers/accountController");
+const accountController = require("../controllers/accountController.js");
 const utilities = require("../utilities/index.js");
-const registrationValidate = require("../utilities/accountValidation");
+const registrationValidate = require("../utilities/accountValidation.js");
 
 // Route to build inventory by classification view
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
@@ -15,15 +15,15 @@ router.get(
 );
 
 router.post(
-  "/register",
+  "/account/register",
   utilities.handleErrors(accountController.registerAccount)
 );
 
 // Process the registration data
 router.post(
-  "/register",
+  "/account/register",
   registrationValidate.registrationRules(),
-  registrationValidate.validateRegistrationData,
+  registrationValidate.checkRegistrationData,
   utilities.handleErrors(accountController.registerAccount)
 );
 

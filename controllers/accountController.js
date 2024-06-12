@@ -31,6 +31,8 @@ accountController.buildRegistration = async function (req, res, next) {
  *  Process Registration
  * *************************************** */
 accountController.registerAccount = async function (req, res) {
+  // console.log(req.body)
+  // console.log("in registerAccount")
   let nav = await utilities.getNav();
   const {
     account_firstname,
@@ -39,7 +41,7 @@ accountController.registerAccount = async function (req, res) {
     account_password,
   } = req.body;
 
-  const regResult = await accountModel.registerAccount(
+  const regResult = await accountModel.submitAccount(
     account_firstname,
     account_lastname,
     account_email,

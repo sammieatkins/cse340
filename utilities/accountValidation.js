@@ -7,6 +7,7 @@ const validate = {};
  * ********************************* */
 validate.registrationRules = () => {
   return [
+    // body is the form data element
     // firstname is required and must be string
     body("account_firstname")
       .trim()
@@ -50,7 +51,7 @@ validate.registrationRules = () => {
 /* ******************************
  * Check data and return errors or continue to registration
  * ***************************** */
-validate.validateRegistrationData = async (req, res, next) => {
+validate.checkRegistrationData = async (req, res, next) => {
   const { account_firstname, account_lastname, account_email } = req.body;
   let errors = [];
   errors = validationResult(req);
