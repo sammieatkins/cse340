@@ -19,17 +19,17 @@
     <p class="form-pair">
         <!-- first name -->
         <label for="account_firstname" class="required">First Name</label>
-        <input type="text" id="account_firstname" name="account_firstname" class="form-input" required placeholder="Enter your first name">
+        <input type="text" name="account_firstname" id="accountFirstname" class="form-input" required placeholder="Enter your first name" value="<%= locals.account_firstname %>">
     </p>
     <p class="form-pair">
         <!-- last name -->
         <label for="account_lastname" class="required">Last Name</label>
-        <input type="text" id="account_lastname" name="account_lastname" class="form-input" required placeholder="Enter your last name">
+        <input type="text" id="account_lastname" name="account_lastname" class="form-input" required placeholder="Enter your last name" value="<%= locals.account_lastname %>">
     </p>
     <p class="form-pair">
         <!-- email -->
         <label for="account_email" class="required">Email</label>
-        <input type="email" id="account_email" name="account_email" class="form-input" required placeholder="Enter your email address">
+        <input type="email" id="account_email" name="account_email" class="form-input" required placeholder="Enter your email address" value="<%= locals.account_email %>">
     </p>
     <p class="form-pair" id="password-container">
         <!-- password -->

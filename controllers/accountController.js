@@ -66,4 +66,34 @@ accountController.registerAccount = async function (req, res) {
   }
 }
 
+
+/* ****************************************
+ *  Process Login
+ * *************************************** */
+accountController.loginAccount = async function (req, res) {
+  // console.log(req.body)
+  // console.log("in loginAccount")
+  let nav = await utilities.getNav();
+  const { account_email, account_password } = req.body;
+
+  // const loginResult = await accountModel.loginAccount(
+  //   account_email,
+  //   account_password
+  // );
+
+  if (loginResult) {
+    req.flash("notice", `Welcome back ${account_email}.`);
+    res.status(200).render("account/login", {
+      title: "Login",
+      nav,
+    });
+  } else {
+    req.flash("notice", "Sorry, the login failed.");
+    res.status(501).render("account/login", {
+      title: "Login",
+      nav,
+    });
+  }
+}
+
 module.exports = accountController;

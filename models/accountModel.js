@@ -19,18 +19,23 @@ async function submitAccount(account_firstname, account_lastname, account_email,
     }
 }
 
+/* *****************************
+*   Login account
+* *************************** */
+
+
 /* **********************
  *   Check for existing email
  * ********************* */
 async function checkExistingEmail(account_email){
-    try {
-      const sql = "SELECT * FROM account WHERE account_email = $1"
-      const email = await pool.query(sql, [account_email])
-      return email.rowCount
-    } catch (error) {
-      return error.message
-    }
+  try {
+    const sql = "SELECT * FROM account WHERE account_email = $1"
+    const email = await pool.query(sql, [account_email])
+    return email.rowCount
+  } catch (error) {
+    return error.message
   }
+}
 
 // export functions
 module.exports = {getAccounts, submitAccount, checkExistingEmail}
