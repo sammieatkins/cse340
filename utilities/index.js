@@ -1,10 +1,10 @@
 const inventoryModel = require("../models/inventoryModel")
-const Util = {}
+const Utilities = {}
 
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
-Util.getNav = async function (req, res, next) {
+Utilities.getNav = async function (req, res, next) {
   let data = await inventoryModel.getClassifications()
   // console.log(data)
   let list = "<ul>"
@@ -28,7 +28,7 @@ Util.getNav = async function (req, res, next) {
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
-Util.buildClassificationGrid = async function(data){
+Utilities.buildClassificationGrid = async function(data){
   let grid
   if(data.length > 0){
     grid = '<ul id="inv-display">'
@@ -58,7 +58,7 @@ Util.buildClassificationGrid = async function(data){
 }
 
 // Build a custom function in the utilities > index.js file that will take the specific vehicle's information and wrap it up in HTML to deliver to the view
-Util.buildSingleView = async function(data){
+Utilities.buildSingleView = async function(data){
   let singleView = '<section id="inv-single">'
   singleView += '<h1>' + data.inventory_make + ' ' + data.inventory_model + '</h1>'
   singleView += '<img src="' + data.inventory_image + '" alt="' + data.inventory_make + ' ' + data.inventory_model + '" />'
@@ -73,10 +73,34 @@ Util.buildSingleView = async function(data){
 }
 
 /* ****************************************
+ * Classification List (for dropdown)
+ **************************************** */
+Utilities.buildClassificationDropdown = async function (classification_id = null) {
+  try {
+    let data = await inventoryModel.getClassifications();
+    let classificationList = '<select name="classification_id" id="classificationList" required>';
+    classificationList += "<option value=''>Choose a Classification</option>";
+    data.rows.forEach((row) => {
+      classificationList += `<option value="${row.classification_id}"`;
+      if (classification_id != null && row.classification_id == classification_id) {
+        classificationList += " selected ";
+      }
+      classificationList += `>${row.classification_name}</option>`;
+    });
+    classificationList += "</select>";
+    return classificationList;
+  } catch (error) {
+    console.error("Error building classification dropdown:", error);
+    throw error;
+  }
+};
+
+
+/* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
  * General Error Handling
  **************************************** */
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+Utilities.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
-module.exports = Util
+module.exports = Utilities

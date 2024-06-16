@@ -1,0 +1,17 @@
+<!-- The view should contain an appropriate title and h1 value to represent its role as a management view for all things dealing with inventory. -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+} %>
+<!-- The view must be capable of displaying a flash message sent from the existing inventory controller. -->
+<%- messages() %>
+
+<!-- The view should contain two links (no links are directly to a view, all must use the MVC approach): -->
+<section id="classificationLinks">
+    <!-- One to trigger a process to deliver an add new classification view (see Task 2). -->
+    <a href="/inv/addClassification">Add Classification</a>
+
+    <!-- One to trigger a process to deliver an add new inventory view (see Task 3). -->
+    <a href="/inv/addInventory">Add Inventory</a>
+</section>

@@ -1,0 +1,34 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+} %>
+<!-- The view must be capable of displaying a flash message sent from the existing inventory controller. -->
+<%- messages() %>
+
+<!-- Contain a form for adding a new classification (you will only need to add the classification name, the primary key in the table is auto-incrementing). -->
+<form id="addClassificationForm" action="/inv/addClassification" method="post">
+    <p class="form-pair">
+        <label for="classification_name" class="required">Classification Name</label>
+        <!-- The form must contain client-side validation. -->
+        <input 
+            type="text" 
+            id="classification_name" 
+            name="classification_name" 
+            class="form-input" 
+            placeholder="Enter the classification name"
+            pattern="^[a-zA-Z0-9]*$"
+            required
+            value="<%= locals.classification_name %>"
+        >
+    </p>
+
+    <!-- The form must contain a direction that the new classification name cannot contain a space or special character of any kind. -->
+    <p>The new classification name cannot contain a space or special character of any kind.</p>
+
+    <p class="form-pair">
+        <button type="submit" class="form-button">Add Classification</button>
+    </p>
+</form>
+
+

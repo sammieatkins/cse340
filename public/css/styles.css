@@ -105,10 +105,14 @@ nav {
 nav ul {
   background-color: #004463;
   display: flex;
+  flex-direction: column;
   text-align: center;
   justify-content: space-evenly;
   list-style: none;
   padding: 10px 0;
+}
+nav ul li {
+  margin: 5px;
 }
 nav ul li a {
   color: white;
@@ -285,12 +289,12 @@ input:required:invalid, input:focus:invalid {
   background-image: url(/images/invalid.png);
   background-position: right top;
   background-repeat: no-repeat;
- }
-  input:required:valid {
+}
+input:required:valid {
   background-image: url(/images/valid.png);
   background-position: right top;
   background-repeat: no-repeat;
-  }
+}
 
 
 /* REGISTRATION */
@@ -316,13 +320,15 @@ form ul {
   margin-top: 5px;
 }
 
+/* MANAGEMENT */
+#classificationLinks a {
+  display: block;
+}
+
 /* MEDIA QUERY */
 @media (min-width: 768px) {
   :root {
     background-size: cover;
-  }
-  nav ul {
-    flex-direction: row;
   }
   main {
     margin: auto;
@@ -331,7 +337,7 @@ form ul {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 160vh;
+    height: 50vh;
   }
   #features {
     margin-left: 15%;
@@ -359,6 +365,10 @@ form ul {
   .form-pair {
     width: 90%;
   }
+  form p {
+    width: 90%;
+    text-align: center;
+  }
 
   /* INVENTORY DISPLAY */
   #inv-display {
@@ -367,6 +377,12 @@ form ul {
 }
 
 @media (min-width: 1024px) {
+  nav ul {
+    flex-direction: row;
+  }
+  .hero {
+    height: 150vh;
+  }
   #inv-display {
     grid-template-columns: 1fr 1fr 1fr;
   }
