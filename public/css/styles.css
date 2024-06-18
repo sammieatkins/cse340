@@ -259,7 +259,7 @@ form label {
   color: #004463;
   margin: 15px auto 10px auto;
   border-radius: 35px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-weight: bold;
   width: auto;
   justify-self: center;
@@ -268,12 +268,20 @@ form label {
   content: " *";
   color: white;
 }
-form input {
+form input, form textarea, form select {
   height: 2.5em;
   border-radius: 5px;
   border: none;
   padding: 5px;
   margin-bottom: 5px;
+  width: 100%; /* Ensure full width consistency */
+  color: black; /* Ensure the text color is visible on a white background */
+  font-family: 'Roboto', sans-serif; /* Ensure the font is consistent */
+}
+form textarea {
+  height: auto; /* Allow textarea to expand as needed */
+  resize: vertical; /* Allow vertical resizing */
+  min-height: 5em; /* Ensure a minimum height for better usability */
 }
 form a {
   color: white;
@@ -281,20 +289,44 @@ form a {
 }
 form p {
   margin: 0;
+  text-align: center;
 }
-form input::placeholder {
+form input::placeholder, form textarea::placeholder {
   color: grey;
 }
-input:required:invalid, input:focus:invalid {
-  background-image: url(/images/invalid.png);
+/* Styles for invalid input */
+input:required:invalid, textarea:required:invalid, select:required:invalid {
+  background-color: rgb(253, 243, 243);
+  border: 2px solid rgb(194, 72, 72);
+  background-image: url(/images/invalid.png); /* Adjust the image path as needed */
   background-position: right top;
   background-repeat: no-repeat;
+  background-size: 20px 20px; /* Adjust size if necessary */
+  padding-right: 25px; /* Ensure there's space for the icon */
 }
-input:required:valid {
-  background-image: url(/images/valid.png);
+
+/* Styles for valid input */
+input:required:valid, textarea:required:valid, select:required:valid {
+  background-color: rgb(230, 250, 230);
+  border: 2px solid green;
+  background-image: url(/images/valid.png); /* Adjust the image path as needed */
   background-position: right top;
   background-repeat: no-repeat;
+  background-size: 20px 20px; /* Adjust size if necessary */
+  padding-right: 25px; /* Ensure there's space for the icon */
 }
+
+/* Custom styles for validation messages */
+input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
+  outline: none;
+  box-shadow: 0 0 5px red;
+}
+
+input:focus:valid, textarea:focus:valid, select:focus:valid {
+  outline: none;
+  box-shadow: 0 0 5px green;
+}
+
 
 
 /* REGISTRATION */

@@ -6,6 +6,14 @@
 <!-- The view must be capable of displaying a flash message sent from the existing inventory controller. -->
 <%- messages() %>
 
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
 <!-- Contain a form for adding a new classification (you will only need to add the classification name, the primary key in the table is auto-incrementing). -->
 <form id="addClassificationForm" action="/inv/addClassification" method="post">
     <p class="form-pair">

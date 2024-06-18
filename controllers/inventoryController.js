@@ -78,12 +78,16 @@ inventoryController.processClassification = async function (req, res, next) {
     res.status(201).render("./inventory/addClassification", {
       title: "Add Classification",
       nav,
+      errors: null,
+      classification_name,
     });
   } else {
     req.flash("notice", "Sorry, the classification failed.");
     res.status(501).render("./inventory/addClassification", {
       title: "Add Classification",
       nav,
+      errors: null,
+      classification_name,
     });
   }
 };
@@ -127,7 +131,7 @@ inventoryController.processInventory = async function (req, res, next) {
   } = req.body;
   
   let dropdown = await utilities.buildClassificationDropdown(classification_id);
-  
+
   const inventoryResult = await inventoryModel.addInventory(
     inventory_make,
     inventory_model,
