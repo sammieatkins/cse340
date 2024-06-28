@@ -51,6 +51,15 @@ footer a {
   color: white;
 }
 
+.important {
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  color: rgb(194, 72, 72);
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
 /* flash messages automatically add a "notice" class to the <ul> (the actual message is in an <li>) */
 .notice {
   background-color: #004463;

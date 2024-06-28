@@ -1,0 +1,76 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+} %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+<!-- The view must be capable of displaying a flash message sent from the existing inventory controller. -->
+<%- messages() %>
+
+<form action="/inv/delete" method="post">
+    <p class="important">Confirm Deletion - The delete is permanent.</p>
+    <!-- inventory make -->
+    <p class="form-pair">
+        <label for="inventory_make" class="required" readonly>Make</label>
+        <input 
+            type="text" 
+            id="inventory_make" 
+            name="inventory_make" 
+            class="form-input" 
+            placeholder="Enter the make of the inventory item"
+            required
+            value="<%= locals.inventory_make %>"
+        >
+    </p>
+    <!-- inventory model -->
+    <p class="form-pair">
+        <label for="inventory_model" class="required" readonly>Model</label>
+        <input 
+            type="text" 
+            id="inventory_model" 
+            name="inventory_model" 
+            class="form-input" 
+            placeholder="Enter the model of the inventory item"
+            required
+            value="<%= locals.inventory_model %>"
+        >
+    </p>
+    <!-- inventory year -->
+    <p class="form-pair">
+        <label for="inventory_year" class="required" readonly>Year</label>
+        <input 
+            type="number" 
+            id="inventory_year" 
+            name="inventory_year" 
+            class="form-input" 
+            placeholder="Enter the year of the inventory item"
+            required
+            value="<%= locals.inventory_year %>"
+        >
+    </p>
+    <!-- inventory price -->
+    <p class="form-pair">
+        <label for="inventory_price" class="required" readonly>Price</label>
+        <input 
+            type="number" 
+            id="inventory_price" 
+            name="inventory_price" 
+            class="form-input" 
+            placeholder="Enter the price of the inventory item"
+            required
+            value="<%= locals.inventory_price %>"
+        >
+    </p>
+    <input type="hidden" name="inventory_id"
+<% if(locals.inventory_id) { %> value="<%= locals.inventory_id %>"
+<% } %>>
+    <button type="submit" class="form-button">Delete Vehicle</button>
+</form>

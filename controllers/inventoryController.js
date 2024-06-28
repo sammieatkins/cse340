@@ -187,13 +187,10 @@ inventoryController.getInventoryJSON = async (req, res, next) => {
 };
 
 /* ***************************
- * Edit Inventory
+ * Build "Edit Inventory" View
  * ************************** */
-// buildEditInventoryView
 inventoryController.buildEditInventoryView = async function (req, res, next) {
   let nav = await utilities.getNav();
-  console.log("req.params.inventoryId: ", req.params.inventoryId)
-  console.log("sfdaghfhwdsfagshddscnjbhgvcfdxszxdcfghvbh")
   const inventoryId = req.params.inventoryId;
   const itemData = await inventoryModel.getInventoryById(inventoryId);
   const itemName = `${itemData.inventory_make} ${itemData.inventory_model}`;
@@ -249,11 +246,12 @@ inventoryController.updateInventory = async function (req, res, next) {
     inventory_miles,
     inventory_color,
     classification_id,
-    inventory_id,
+    inventory_id
   );
 
   if (updateResult) {
-    const itemName = updateResult.inventory_make + " " + updateResult.inventory_model;
+    const itemName =
+      updateResult.inventory_make + " " + updateResult.inventory_model;
     req.flash("notice", `The ${itemName} was successfully updated.`);
     res.redirect("/inv/");
   } else {
@@ -277,6 +275,67 @@ inventoryController.updateInventory = async function (req, res, next) {
       inventory_miles,
       inventory_color,
       classification_id,
+      inventory_id,
+    });
+  }
+};
+
+/* ***************************
+ * Build "Delete Inventory" View
+ * ************************** */
+inventoryController.buildDeleteInventoryView = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  const inventoryId = req.params.inventoryId;
+  const itemData = await inventoryModel.getInventoryById(inventoryId);
+  const itemName = `${itemData.inventory_make} ${itemData.inventory_model}`;
+  let dropdown = await utilities.buildClassificationDropdown(
+    itemData.classification_id
+  );
+  res.render("inventory/deleteConfirm", {
+    title: "Delete " + itemName,
+    nav,
+    dropdown,
+    errors: null,
+    inventory_id: itemData.inventory_id,
+    inventory_make: itemData.inventory_make,
+    inventory_model: itemData.inventory_model,
+    inventory_year: itemData.inventory_year,
+    inventory_price: itemData.inventory_price,
+    classification_id: itemData.classification_id,
+  });
+};
+
+/* ***************************
+ *  Delete Inventory
+ * ************************** */
+inventoryController.deleteInventory = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  const {
+    inventory_make,
+    inventory_model,
+    classification_id,
+    inventory_id,
+  } = req.body;
+
+  const deleteResult = await inventoryModel.deleteInventory(
+    inventory_id
+  );
+
+  if (deleteResult) {
+    const itemName = inventory_make + " " + inventory_model;
+    req.flash("notice", `The ${itemName} was successfully deleted.`);
+    res.redirect("/inv/");
+  } else {
+    const dropdown = await utilities.buildClassificationDropdown(
+      classification_id
+    );
+    const itemName = `${inventory_make} ${inventory_model}`;
+    req.flash("notice", "Sorry, the insert failed.");
+    res.status(501).render("inventory/deleteInventory", {
+      title: "Delete " + itemName,
+      nav,
+      dropdown: dropdown,
+      errors: null,
       inventory_id,
     });
   }

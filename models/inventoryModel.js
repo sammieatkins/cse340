@@ -107,17 +107,17 @@ async function addInventory(
 //   classification_id
 // ) {
 //   try {
-//     const sql = `UPDATE public.inventory 
-//       SET 
-//         inventory_make = $1, 
-//         inventory_model = $2, 
-//         inventory_description = $3, 
-//         inventory_image = $4, 
-//         inventory_thumbnail = $5, 
-//         inventory_price = $6, 
-//         inventory_year = $7, 
-//         inventory_miles = $8, 
-//         inventory_color = $9, 
+//     const sql = `UPDATE public.inventory
+//       SET
+//         inventory_make = $1,
+//         inventory_model = $2,
+//         inventory_description = $3,
+//         inventory_image = $4,
+//         inventory_thumbnail = $5,
+//         inventory_price = $6,
+//         inventory_year = $7,
+//         inventory_miles = $8,
+//         inventory_color = $9,
 //         classification_id = $10
 //       WHERE inventory_id = $11 RETURNING *`;
 //     const inputList = [
@@ -134,19 +134,19 @@ async function addInventory(
 //       inventory_id,
 //     ];
 //     // console.log(inputList);
-    // console.log(`
-    //     make: ${inputList[0]}
-    //     model: ${inputList[1]}
-    //     description: ${inputList[2]}
-    //     image: ${inputList[3]}
-    //     thumbnail: ${inputList[4]}
-    //     price: ${inputList[5]}
-    //     year: ${inputList[6]}
-    //     miles: ${inputList[7]}
-    //     color: ${inputList[8]}
-    //     classification_id: ${inputList[9]}
-    //     inventory_id: ${inputList[10]}
-    //   `);
+// console.log(`
+//     make: ${inputList[0]}
+//     model: ${inputList[1]}
+//     description: ${inputList[2]}
+//     image: ${inputList[3]}
+//     thumbnail: ${inputList[4]}
+//     price: ${inputList[5]}
+//     year: ${inputList[6]}
+//     miles: ${inputList[7]}
+//     color: ${inputList[8]}
+//     classification_id: ${inputList[9]}
+//     inventory_id: ${inputList[10]}
+//   `);
 //     const data = await pool.query(sql, inputList);
 //     console.log("data:", data)
 //     return data;
@@ -154,7 +154,6 @@ async function addInventory(
 //     console.error("updateInventory error " + error);
 //   }
 // }
-
 
 /* ***************************
  *  Update Inventory Data
@@ -170,12 +169,11 @@ async function updateInventory(
   inventory_miles,
   inventory_color,
   classification_id,
-  inventory_id,
+  inventory_id
 ) {
-  // console.log("inventory_id: ", inventory_id);
   try {
     const sql =
-      "UPDATE public.inventory SET inventory_make = $1, inventory_model = $2, inventory_description = $3, inventory_image = $4, inventory_thumbnail = $5, inventory_price = $6, inventory_year = $7, inventory_miles = $8, inventory_color = $9, classification_id = $10 WHERE inventory_id = $11 RETURNING *"
+      "UPDATE public.inventory SET inventory_make = $1, inventory_model = $2, inventory_description = $3, inventory_image = $4, inventory_thumbnail = $5, inventory_price = $6, inventory_year = $7, inventory_miles = $8, inventory_color = $9, classification_id = $10 WHERE inventory_id = $11 RETURNING *";
     const data = await pool.query(sql, [
       inventory_make,
       inventory_model,
@@ -188,11 +186,24 @@ async function updateInventory(
       inventory_color,
       classification_id,
       inventory_id,
-    ])
-    console.log("data: ", data.rows[0])
-    return data.rows[0]
+    ]);
+    console.log("data: ", data.rows[0]);
+    return data.rows[0];
   } catch (error) {
-    console.error("model error: " + error)
+    console.error("model error: " + error);
+  }
+}
+
+/* ***************************
+ *  Delete Inventory Data
+ * ************************** */
+async function deleteInventory(inventory_id) {
+  try {
+    const sql = 'DELETE FROM inventory WHERE inventory_id = $1';
+    const data = await pool.query(sql, [inventory_id]);
+    return data.rows;
+  } catch (error) {
+    console.error("Delete inventory error: " + error);
   }
 }
 
@@ -203,4 +214,5 @@ module.exports = {
   addClassification,
   addInventory,
   updateInventory,
+  deleteInventory,
 };

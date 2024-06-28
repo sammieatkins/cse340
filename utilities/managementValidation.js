@@ -75,14 +75,12 @@ validate.inventoryRules = () => {
       .withMessage("Please provide a make that meets the requirements."),
     body("inventory_image")
       .trim()
-      .escape()
       .notEmpty()
       .isLength({ min: 2 })
       //   .isURL()
       .withMessage("Please provide an image that meets the requirements."),
     body("inventory_thumbnail")
       .trim()
-      .escape()
       .notEmpty()
       .isLength({ min: 2 })
       //   .isURL()
