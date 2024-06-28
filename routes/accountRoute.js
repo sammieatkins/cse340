@@ -27,10 +27,12 @@ router.post(
   "/login",
   registrationValidate.loginRules(),
   registrationValidate.checkLoginData,
-  utilities.handleErrors((req, res) => {
-    res.status(200).render("index", { title: "Home Page", nav: utilities.getNav()});
-  }), 
+  utilities.handleErrors(accountController.accountLogin), 
 )
+
+// Build account management view
+// router.get("/", utilities.handleErrors(accountController.buildManagement))
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement))
 
 // Route to build single view for inventory item
 // router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildSingleView));

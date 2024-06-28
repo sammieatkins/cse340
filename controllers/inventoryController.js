@@ -45,9 +45,13 @@ inventoryController.buildSingleView = async function (req, res, next) {
  * ************************** */
 inventoryController.buildManagementView = async function (req, res, next) {
   let nav = await utilities.getNav();
+  // const data = await inventoryModel.getClassifications();
+  let classificationDropdown = await utilities.buildClassificationDropdown();
+
   res.render("./inventory/management", {
     title: "Manage Inventory",
     nav,
+    classificationDropdown,
     errors: null,
   });
 };
@@ -116,7 +120,7 @@ inventoryController.buildInventoryView = async function (req, res, next) {
  * ************************** */
 inventoryController.processInventory = async function (req, res, next) {
   let nav = await utilities.getNav();
-  
+
   const {
     inventory_make,
     inventory_model,
@@ -129,7 +133,7 @@ inventoryController.processInventory = async function (req, res, next) {
     inventory_color,
     classification_id,
   } = req.body;
-  
+
   let dropdown = await utilities.buildClassificationDropdown(classification_id);
 
   const inventoryResult = await inventoryModel.addInventory(
@@ -162,6 +166,118 @@ inventoryController.processInventory = async function (req, res, next) {
       nav,
       errors: null,
       dropdown,
+    });
+  }
+};
+
+/* ***************************
+ *  Return Inventory by Classification As JSON
+ * ************************** */
+inventoryController.getInventoryJSON = async (req, res, next) => {
+  const classification_id = parseInt(req.params.classificationId);
+  // console.log(`req.params.classificationId: ${req.params.classificationId}`)
+  const invData = await inventoryModel.getInventoryByClassificationId(
+    classification_id
+  );
+  if (invData[0].inventory_id) {
+    return res.json(invData);
+  } else {
+    next(new Error("No data returned"));
+  }
+};
+
+/* ***************************
+ * Edit Inventory
+ * ************************** */
+// buildEditInventoryView
+inventoryController.buildEditInventoryView = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  console.log("req.params.inventoryId: ", req.params.inventoryId)
+  console.log("sfdaghfhwdsfagshddscnjbhgvcfdxszxdcfghvbh")
+  const inventoryId = req.params.inventoryId;
+  const itemData = await inventoryModel.getInventoryById(inventoryId);
+  const itemName = `${itemData.inventory_make} ${itemData.inventory_model}`;
+  let dropdown = await utilities.buildClassificationDropdown(
+    itemData.classification_id
+  );
+  res.render("./inventory/editInventory", {
+    title: "Edit " + itemName,
+    nav,
+    dropdown,
+    errors: null,
+    inventory_id: itemData.inventory_id,
+    inventory_make: itemData.inventory_make,
+    inventory_model: itemData.inventory_model,
+    inventory_year: itemData.inventory_year,
+    inventory_description: itemData.inventory_description,
+    inventory_image: itemData.inventory_image,
+    inventory_thumbnail: itemData.inventory_thumbnail,
+    inventory_price: itemData.inventory_price,
+    inventory_miles: itemData.inventory_miles,
+    inventory_color: itemData.inventory_color,
+    classification_id: itemData.classification_id,
+  });
+};
+
+/* ***************************
+ *  Update Inventory Data
+ * ************************** */
+inventoryController.updateInventory = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  const {
+    inventory_make,
+    inventory_model,
+    inventory_description,
+    inventory_image,
+    inventory_thumbnail,
+    inventory_price,
+    inventory_year,
+    inventory_miles,
+    inventory_color,
+    classification_id,
+    inventory_id,
+  } = req.body;
+  console.log("req.body: ", req.body);
+  const updateResult = await inventoryModel.updateInventory(
+    inventory_make,
+    inventory_model,
+    inventory_description,
+    inventory_image,
+    inventory_thumbnail,
+    inventory_price,
+    inventory_year,
+    inventory_miles,
+    inventory_color,
+    classification_id,
+    inventory_id,
+  );
+
+  if (updateResult) {
+    const itemName = updateResult.inventory_make + " " + updateResult.inventory_model;
+    req.flash("notice", `The ${itemName} was successfully updated.`);
+    res.redirect("/inv/");
+  } else {
+    const dropdown = await utilities.buildClassificationDropdown(
+      classification_id
+    );
+    const itemName = `${inventory_make} ${inventory_model}`;
+    req.flash("notice", "Sorry, the insert failed.");
+    res.status(501).render("inventory/editInventory", {
+      title: "Edit" + " " + itemName,
+      nav,
+      dropdown: dropdown,
+      errors: null,
+      inventory_make,
+      inventory_model,
+      inventory_year,
+      inventory_description,
+      inventory_image,
+      inventory_thumbnail,
+      inventory_price,
+      inventory_miles,
+      inventory_color,
+      classification_id,
+      inventory_id,
     });
   }
 };

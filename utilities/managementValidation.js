@@ -78,14 +78,14 @@ validate.inventoryRules = () => {
       .escape()
       .notEmpty()
       .isLength({ min: 2 })
-    //   .isURL()
+      //   .isURL()
       .withMessage("Please provide an image that meets the requirements."),
     body("inventory_thumbnail")
       .trim()
       .escape()
       .notEmpty()
       .isLength({ min: 2 })
-    //   .isURL()
+      //   .isURL()
       .withMessage("Please provide a thumbnail that meets the requirements."),
     body("inventory_price")
       .trim()
@@ -143,6 +143,50 @@ validate.checkInventory = async (req, res, next) => {
       title: "Add Inventory",
       nav,
       dropdown,
+      inventory_make,
+      inventory_model,
+      inventory_year,
+      inventory_description,
+      inventory_image,
+      inventory_thumbnail,
+      inventory_price,
+      inventory_miles,
+      inventory_color,
+      classification_id,
+    });
+    return;
+  }
+  next();
+};
+
+/* ******************************
+ * Check update data - send to edit view instead of add view
+ * ***************************** */
+validate.checkUpdateData = async (req, res, next) => {
+  const {
+    inventory_id,
+    inventory_make,
+    inventory_model,
+    inventory_year,
+    inventory_description,
+    inventory_image,
+    inventory_thumbnail,
+    inventory_price,
+    inventory_miles,
+    inventory_color,
+    classification_id,
+  } = req.body;
+  let errors = [];
+  errors = validationResult(req);
+  let dropdown = await utilities.buildClassificationDropdown(classification_id);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    res.render("inventory/editInventory", {
+      errors,
+      title: "Edit Inventory",
+      nav,
+      dropdown,
+      inventory_id,
       inventory_make,
       inventory_model,
       inventory_year,

@@ -11,8 +11,16 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 // Route to build single view for inventory item
 router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildSingleView));
 
+// router.get("/getInventory/:classificationId", utilities.handleErrors(invController.getInventoryByClassificationId));
+
 // Route to build management view for inventory
 router.get("/", utilities.handleErrors(invController.buildManagementView));
+router.get("/getInventory/:classificationId", utilities.handleErrors(invController.getInventoryJSON))
+
+// Route for editing inventory
+// Add a controller-based function to handle the incoming "get" request.
+router.get("/edit/:inventoryId", utilities.handleErrors(invController.buildEditInventoryView));
+
 
 // Route for new classification
 router.get("/addClassification", utilities.handleErrors(invController.buildClassificationView));
@@ -35,5 +43,16 @@ router.post(
     managementValidate.checkInventory, 
     utilities.handleErrors(invController.processInventory)
 );
+
+// Route for editing inventory
+router.get("/edit/:inventoryId", utilities.handleErrors(invController.buildEditInventoryView));
+
+// Route to process updated inventory
+router.post(
+    "/update/",
+    managementValidate.inventoryRules(),
+    managementValidate.checkUpdateData,
+    utilities.handleErrors(invController.updateInventory)
+)
 
 module.exports = router;

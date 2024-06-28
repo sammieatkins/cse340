@@ -1,4 +1,1 @@
-ask about:
-[object Promise] thing
-
-site-name/inv/ => is site-name supposed to be replaced by something else?
+Get classification to work immediately, not when refreshed.

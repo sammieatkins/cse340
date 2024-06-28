@@ -15,7 +15,7 @@ async function getClassifications() {
 async function getInventoryByClassificationId(classification_id) {
   try {
     const data = await pool.query(
-      `SELECT * FROM public.inventory AS i 
+      `SELECT * FROM public.inventory AS i
       JOIN public.classification AS c 
       ON i.classification_id = c.classification_id 
       WHERE i.classification_id = $1`,
@@ -93,10 +93,114 @@ async function addInventory(
   }
 }
 
+// async function updateInventory(
+//   inventory_id,
+//   inventory_make,
+//   inventory_model,
+//   inventory_year,
+//   inventory_description,
+//   inventory_image,
+//   inventory_thumbnail,
+//   inventory_price,
+//   inventory_miles,
+//   inventory_color,
+//   classification_id
+// ) {
+//   try {
+//     const sql = `UPDATE public.inventory 
+//       SET 
+//         inventory_make = $1, 
+//         inventory_model = $2, 
+//         inventory_description = $3, 
+//         inventory_image = $4, 
+//         inventory_thumbnail = $5, 
+//         inventory_price = $6, 
+//         inventory_year = $7, 
+//         inventory_miles = $8, 
+//         inventory_color = $9, 
+//         classification_id = $10
+//       WHERE inventory_id = $11 RETURNING *`;
+//     const inputList = [
+//       inventory_make,
+//       inventory_model,
+//       inventory_description,
+//       inventory_image,
+//       inventory_thumbnail,
+//       inventory_price,
+//       inventory_year,
+//       inventory_miles,
+//       inventory_color,
+//       classification_id,
+//       inventory_id,
+//     ];
+//     // console.log(inputList);
+    // console.log(`
+    //     make: ${inputList[0]}
+    //     model: ${inputList[1]}
+    //     description: ${inputList[2]}
+    //     image: ${inputList[3]}
+    //     thumbnail: ${inputList[4]}
+    //     price: ${inputList[5]}
+    //     year: ${inputList[6]}
+    //     miles: ${inputList[7]}
+    //     color: ${inputList[8]}
+    //     classification_id: ${inputList[9]}
+    //     inventory_id: ${inputList[10]}
+    //   `);
+//     const data = await pool.query(sql, inputList);
+//     console.log("data:", data)
+//     return data;
+//   } catch (error) {
+//     console.error("updateInventory error " + error);
+//   }
+// }
+
+
+/* ***************************
+ *  Update Inventory Data
+ * ************************** */
+async function updateInventory(
+  inventory_make,
+  inventory_model,
+  inventory_description,
+  inventory_image,
+  inventory_thumbnail,
+  inventory_price,
+  inventory_year,
+  inventory_miles,
+  inventory_color,
+  classification_id,
+  inventory_id,
+) {
+  // console.log("inventory_id: ", inventory_id);
+  try {
+    const sql =
+      "UPDATE public.inventory SET inventory_make = $1, inventory_model = $2, inventory_description = $3, inventory_image = $4, inventory_thumbnail = $5, inventory_price = $6, inventory_year = $7, inventory_miles = $8, inventory_color = $9, classification_id = $10 WHERE inventory_id = $11 RETURNING *"
+    const data = await pool.query(sql, [
+      inventory_make,
+      inventory_model,
+      inventory_description,
+      inventory_image,
+      inventory_thumbnail,
+      inventory_price,
+      inventory_year,
+      inventory_miles,
+      inventory_color,
+      classification_id,
+      inventory_id,
+    ])
+    console.log("data: ", data.rows[0])
+    return data.rows[0]
+  } catch (error) {
+    console.error("model error: " + error)
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
   getInventoryById,
   addClassification,
   addInventory,
+  updateInventory,
 };
