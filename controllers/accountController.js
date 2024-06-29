@@ -119,7 +119,7 @@ accountController.loginAccount = async function (req, res) {
  * ************************************ */
 accountController.accountLogin = async function (req, res) {
   let nav = await utilities.getNav();
-  const { account_email, account_password } = req.body;
+  const { account_email, account_password, account_type } = req.body;
   const accountData = await accountModel.getAccountByEmail(account_email);
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.");
@@ -148,17 +148,31 @@ accountController.accountLogin = async function (req, res) {
           maxAge: 3600 * 1000,
         });
       }
-      return res.redirect("/account/");
+      return res.redirect("/account");
     }
   } catch (error) {
     return new Error("Access Forbidden");
   }
 }
 
+accountController.accountLogout = async function (req, res) {
+  res.clearCookie("jwt");
+  res.redirect("/");
+}
+
 accountController.buildManagement = async function (req, res) {
   let nav = await utilities.getNav();
   res.render("account/management", {
     title: "Account Management",
+    nav,
+    errors: null,
+  });
+};
+
+accountController.buildEditAccountView = async function (req, res) {
+  let nav = await utilities.getNav();
+  res.render("account/editAccount", {
+    title: "Edit Account",
     nav,
     errors: null,
   });

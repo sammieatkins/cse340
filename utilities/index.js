@@ -173,11 +173,30 @@ Utilities.checkJWTToken = (req, res, next) => {
  * ************************************ */
 Utilities.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
-    next()
+    next();
   } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login");
   }
- }
+};
+
+/* ****************************************
+ *  Check Admin and Employee
+ * ************************************ */
+Utilities.checkAdminEmployee = (req, res, next) => {
+  if (res.locals.loggedin) {
+    const account_type = res.locals.accountData.account_type;
+    if (account_type == "Admin" || account_type == "Employee") {
+      // you're good to continue
+      next();
+    } else {
+      req.flash( "notice", "Your account type does not have access to this page.");
+      res.redirect("/account/login");
+    }
+  } else {
+    req.flash( "notice", "Your account type does not have access to this page.");
+    res.redirect("/account/login");
+  }
+};
 
 module.exports = Utilities;

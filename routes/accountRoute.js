@@ -27,14 +27,22 @@ router.post(
   "/login",
   registrationValidate.loginRules(),
   registrationValidate.checkLoginData,
-  utilities.handleErrors(accountController.accountLogin), 
+  utilities.handleErrors(accountController.accountLogin),
 )
 
+// Process logout
+router.get("/logout", utilities.handleErrors(accountController.accountLogout))
+
 // Build account management view
-// router.get("/", utilities.handleErrors(accountController.buildManagement))
 router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement))
 
-// Route to build single view for inventory item
-// router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildSingleView));
+// Build account edit view
+router.get("/editAccount/:accountId", utilities.handleErrors(accountController.buildEditAccountView))
+
+// Process account edit password
+router.get("/editPassword", utilities.handleErrors(accountController.editPassword))
+
+// Process account edit account data
+router.get("/editAccount")
 
 module.exports = router;

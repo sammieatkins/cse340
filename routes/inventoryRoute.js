@@ -14,7 +14,7 @@ router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildSin
 // router.get("/getInventory/:classificationId", utilities.handleErrors(invController.getInventoryByClassificationId));
 
 // Route to build management view for inventory
-router.get("/", utilities.handleErrors(invController.buildManagementView));
+router.get("/", utilities.checkAdminEmployee, utilities.handleErrors(invController.buildManagementView));
 router.get("/getInventory/:classificationId", utilities.handleErrors(invController.getInventoryJSON))
 
 // Route for editing inventory
@@ -23,7 +23,7 @@ router.get("/edit/:inventoryId", utilities.handleErrors(invController.buildEditI
 
 
 // Route for new classification
-router.get("/addClassification", utilities.handleErrors(invController.buildClassificationView));
+router.get("/addClassification", utilities.checkAdminEmployee, utilities.handleErrors(invController.buildClassificationView));
 
 // Route to process new classification
 router.post(
@@ -34,7 +34,7 @@ router.post(
 );
 
 // Route for new inventory
-router.get("/addInventory", utilities.handleErrors(invController.buildInventoryView));
+router.get("/addInventory", utilities.checkAdminEmployee, utilities.handleErrors(invController.buildInventoryView));
 
 // Route to process new inventory
 router.post(
@@ -45,7 +45,7 @@ router.post(
 );
 
 // Route for editing inventory
-router.get("/edit/:inventoryId", utilities.handleErrors(invController.buildEditInventoryView));
+router.get("/edit/:inventoryId", utilities.checkAdminEmployee, utilities.handleErrors(invController.buildEditInventoryView));
 
 // Route to process updated inventory
 router.post(
@@ -56,7 +56,7 @@ router.post(
 )
 
 // Route for getting the delete inventory view
-router.get("/delete/:inventoryId", utilities.handleErrors(invController.buildDeleteInventoryView))
+router.get("/delete/:inventoryId", utilities.checkAdminEmployee, utilities.handleErrors(invController.buildDeleteInventoryView))
 
 // Route to process the delete inventory
 router.post("/delete/", utilities.handleErrors(invController.deleteInventory))

@@ -58,6 +58,13 @@ footer a {
   color: rgb(194, 72, 72);
   font-weight: bold;
   font-size: 1.2em;
+  text-align: center;
+}
+
+/* For the bullet points on edit password page */
+.center {
+  margin: 0 auto;
+  width: max-content;
 }
 
 /* flash messages automatically add a "notice" class to the <ul> (the actual message is in an <li>) */
@@ -336,7 +343,11 @@ input:focus:valid, textarea:focus:valid, select:focus:valid {
   box-shadow: 0 0 5px green;
 }
 
-
+/* EDIT ACCOUNT */
+.form-wrapper {
+  display: flex;
+  
+}
 
 /* REGISTRATION */
 #password-container {
