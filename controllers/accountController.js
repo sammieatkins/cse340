@@ -203,29 +203,28 @@ accountController.editAccount = async function (req, res) {
 
   if (updateResult) {
     req.flash(
-      "notice",
-      `Congratulations, ${account_firstname}. You have updated your account.`
+        "notice",
+        `Congratulations, ${account_firstname}. You have updated your account.`
     );
-    // handle cookies
     res.clearCookie("jwt");
-    delete accountData.account_password;
+    const updatedAccountData = await accountModel.getAccountById(account_id);
+    delete updatedAccountData.account_password;
     const accessToken = jwt.sign(
-      accountData,
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: 3600 }
+        updatedAccountData,
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: 3600 }
     );
     if (process.env.NODE_ENV === "development") {
-      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
     } else {
-      res.cookie("jwt", accessToken, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 3600 * 1000,
-      });
+        res.cookie("jwt", accessToken, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 3600 * 1000,
+        });
     }
-    // redirect instead of render
     res.status(201).redirect("/account/");
-  } else {
+} else {
     req.flash("notice", "Sorry, the account update failed.");
     res.status(501).render("account/editAccount", {
       title: "Edit Account",
