@@ -1,1 +1,3 @@
 Get classification to work immediately, not when refreshed.
+Same refresh problem with editing the account info
+Signing in after changing the password takes 20 years... must get stuck somewhere

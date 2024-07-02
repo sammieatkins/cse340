@@ -14,7 +14,7 @@
    </ul>
   <% } %>
 
-<form id="updateForm" action="/account/editAccount" method="post">
+<form id="updateForm" action="/account/editData" method="post">
     <p class="form-pair">
         <!-- first name -->
         <label for="account_firstname" class="required">First Name</label>
@@ -60,8 +60,25 @@
             <li>At least 1 special character</li>
         </ul>
     </p>
+    <input type="hidden" name="account_id"
+    <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>"
+    <% } %>>
     <p class="important">Note: Your original password will be changed.</p>
     <button type="submit" class="form-button">Change Password</button>
 </form>
 
 <script src="../../js/invUpdate.js"></script>
+<script>
+    const passwordButton = document.getElementById('password-button');
+    const passwordInput = document.getElementById('account_password');
+
+    passwordButton.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordButton.textContent = 'Hide';
+        } else {
+            passwordInput.type = 'password';
+            passwordButton.textContent = 'Show';
+        }
+    });
+</script>

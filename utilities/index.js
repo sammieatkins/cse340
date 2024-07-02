@@ -190,11 +190,14 @@ Utilities.checkAdminEmployee = (req, res, next) => {
       // you're good to continue
       next();
     } else {
-      req.flash( "notice", "Your account type does not have access to this page.");
+      req.flash(
+        "notice",
+        "Your account type does not have access to this page."
+      );
       res.redirect("/account/login");
     }
   } else {
-    req.flash( "notice", "Your account type does not have access to this page.");
+    req.flash("notice", "Your account type does not have access to this page.");
     res.redirect("/account/login");
   }
 };

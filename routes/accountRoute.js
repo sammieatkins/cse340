@@ -3,7 +3,7 @@ const express = require("express");
 const router = new express.Router();
 const accountController = require("../controllers/accountController");
 const utilities = require("../utilities/index");
-const registrationValidate = require("../utilities/accountValidation");
+const accountValidation = require("../utilities/accountValidation");
 
 // Route to build inventory by classification view
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
@@ -17,16 +17,16 @@ router.get(
 // Process the registration data
 router.post(
   "/registration",
-  registrationValidate.registrationRules(),
-  registrationValidate.checkRegistrationData,
+  accountValidation.registrationRules(),
+  accountValidation.checkRegistrationData,
   utilities.handleErrors(accountController.registerAccount)
 );
 
 // Process the login attempt
 router.post(
   "/login",
-  registrationValidate.loginRules(),
-  registrationValidate.checkLoginData,
+  accountValidation.loginRules(),
+  accountValidation.checkLoginData,
   utilities.handleErrors(accountController.accountLogin),
 )
 
@@ -39,10 +39,14 @@ router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.b
 // Build account edit view
 router.get("/editAccount/:accountId", utilities.handleErrors(accountController.buildEditAccountView))
 
-// Process account edit password
-router.get("/editPassword", utilities.handleErrors(accountController.editPassword))
-
 // Process account edit account data
-router.get("/editAccount")
+router.post("/editData", 
+  accountValidation.accountRules(),
+  utilities.handleErrors(accountController.editAccount))
+
+// Process account edit password
+router.post("/editPassword",
+  accountValidation.passwordRules(),
+  utilities.handleErrors(accountController.editPassword))
 
 module.exports = router;

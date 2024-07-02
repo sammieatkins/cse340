@@ -234,7 +234,7 @@ inventoryController.updateInventory = async function (req, res, next) {
     classification_id,
     inventory_id,
   } = req.body;
-  console.log("req.body: ", req.body);
+
   const updateResult = await inventoryModel.updateInventory(
     inventory_make,
     inventory_model,
@@ -261,7 +261,7 @@ inventoryController.updateInventory = async function (req, res, next) {
     const itemName = `${inventory_make} ${inventory_model}`;
     req.flash("notice", "Sorry, the insert failed.");
     res.status(501).render("inventory/editInventory", {
-      title: "Edit" + " " + itemName,
+      title: "Edit " + itemName,
       nav,
       dropdown: dropdown,
       errors: null,
@@ -310,16 +310,10 @@ inventoryController.buildDeleteInventoryView = async function (req, res, next) {
  * ************************** */
 inventoryController.deleteInventory = async function (req, res, next) {
   let nav = await utilities.getNav();
-  const {
-    inventory_make,
-    inventory_model,
-    classification_id,
-    inventory_id,
-  } = req.body;
+  const { inventory_make, inventory_model, classification_id, inventory_id } =
+    req.body;
 
-  const deleteResult = await inventoryModel.deleteInventory(
-    inventory_id
-  );
+  const deleteResult = await inventoryModel.deleteInventory(inventory_id);
 
   if (deleteResult) {
     const itemName = inventory_make + " " + inventory_model;
