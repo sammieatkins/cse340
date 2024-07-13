@@ -29,15 +29,67 @@ inventoryController.buildByClassificationId = async function (req, res, next) {
 inventoryController.buildSingleView = async function (req, res, next) {
   const inventory_id = req.params.inventoryId;
   const singleData = await inventoryModel.getInventoryById(inventory_id);
-  // console.log(singleData)
   let nav = await utilities.getNav();
   let singleView = await utilities.buildSingleView(singleData);
+  // add reviews
+  let reviewsData = await inventoryModel.getReviewsByInventoryId(inventory_id);
+  let reviews = await utilities.buildReviews(reviewsData);
   res.render("./inventory/single", {
     title: singleData.inventory_make + " " + singleData.inventory_model,
     nav,
+    inventoryId: inventory_id,
     singleView,
+    reviewsData,
+    reviews,
     errors: null,
   });
+};
+
+/* ***************************
+ *  Add a review
+ * ************************** */
+inventoryController.addReview = async function (req, res) {
+  let nav = await utilities.getNav();
+
+  let { review_text, inventoryId, account_id} = req.body;
+
+  // let inventoryId = req.params.inventoryId;
+  // let account_id = req.session.account_id;
+
+
+  let reviewResult = await inventoryModel.addReview(
+    review_text,
+    inventoryId,
+    account_id
+  );
+  // console.log("reviewResult: ", reviewResult);
+
+
+  const singleData = await inventoryModel.getInventoryById(inventoryId);
+  // console.log("singleData: ", singleData)
+  let singleView = await utilities.buildSingleView(singleData);
+  // console.log("singleView: ", singleView)
+  let reviewsData = await inventoryModel.getReviewsByInventoryId(inventoryId);
+  // console.log("reviewsData: ", reviewsData)
+  let reviews = await utilities.buildReviews(reviewsData);
+  console.log("reviews: ", reviews)
+
+
+  if (reviewResult) {
+    req.flash("notice", "Review added.");
+    res.redirect("/inv/detail/" + inventoryId);
+  } else {
+    req.flash("notice", "Sorry, the review failed.");
+    res.status(501).render("./inventory/single", {
+      title: singleData.inventory_make + " " + singleData.inventory_model,
+      nav,
+      inventoryId,
+      singleView,
+      reviewsData,
+      reviews,
+      errors: null,
+    });
+  }
 };
 
 /* ***************************
@@ -45,7 +97,6 @@ inventoryController.buildSingleView = async function (req, res, next) {
  * ************************** */
 inventoryController.buildManagementView = async function (req, res, next) {
   let nav = await utilities.getNav();
-  // const data = await inventoryModel.getClassifications();
   let classificationDropdown = await utilities.buildClassificationDropdown();
 
   res.render("./inventory/management", {

@@ -376,6 +376,11 @@ form ul {
   display: block;
 }
 
+/* REVIEWS */
+.reviews li {
+  
+}
+
 /* MEDIA QUERY */
 @media (min-width: 768px) {
   :root {

@@ -166,9 +166,12 @@ accountController.accountLogout = async function (req, res) {
 
 accountController.buildManagement = async function (req, res) {
   let nav = await utilities.getNav();
+  let reviewsData = await accountModel.getReviewsByAccountId(res.locals.accountData.account_id);
+  let reviews = await utilities.buildReviews(reviewsData.rows);
   res.render("account/management", {
     title: "Account Management",
     nav,
+    reviews,
     errors: null,
   });
 };

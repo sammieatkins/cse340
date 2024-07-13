@@ -1,2 +1,45 @@
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
 <!-- Inventory item display -->
 <%- singleView %>
+<h2>Reviews</h2>
+
+<!-- if no reviews, invite client to write a review -->
+<% if(reviewsData.length === 0) { %>
+  <p>No reviews yet. Be the first to write one!</p>
+<% } else { %>
+    <%- reviews %>
+<% } %>
+
+<!-- Review -->
+<% if(locals.loggedin) { %>
+  <form action="/inv/review/<%= inventoryId %>" method="post">
+    <h3>Add Review</h3>
+
+    <!-- Screen Name -->
+    <% let screenName = locals.accountData.account_firstname[0] + ' ' + locals.accountData.account_lastname %>
+    <label for="screenName">Screen Name:</label>
+    <input type="text" name="screenName" id="screenName" value="<%= screenName %>" readonly>
+
+    <!-- Review Text -->
+    <label for="review">Review:</label>
+    <textarea name="review_text" id="review_text" cols="30" rows="10"></textarea>
+
+    <!-- Hidden inventory_id field -->
+    <input type="hidden" name="inventoryId" value="<%= inventoryId %>">
+
+    <!-- hidden account_id field -->
+    <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+
+    <!-- Submit -->
+    <button type="submit" class="form-button">Submit Review</button>
+  </form>
+<% } else { %> 
+  <p>You must be <a href="/account/login">logged in</a> to leave a review.</p>
+<% } %>

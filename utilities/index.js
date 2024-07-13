@@ -1,4 +1,5 @@
 const inventoryModel = require("../models/inventoryModel");
+const accountModel = require("../models/accountModel");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const Utilities = {};
@@ -105,6 +106,32 @@ Utilities.buildSingleView = async function (data) {
   singleView += "</section>";
   singleView += "</section>";
   return singleView;
+};
+
+/* ****************************************
+ * Build the reviews HTML
+ **************************************** */
+Utilities.buildReviews = async function (data) {
+  let reviews = "<ul class='reviews'>";
+
+  for (const review of data) {
+    let accountData = await accountModel.getAccountById(review.account_id);
+    let screenName = accountData.account_firstname[0] + ' ' + accountData.account_lastname;
+    let formattedDate = review.review_date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    reviews += "<li>";
+    reviews += "<h3>" + screenName + "wrote on " + formattedDate + "</h3>";
+    reviews += "<p>" + review.review_text + "</p>";
+    reviews += "</li>";
+  }
+
+  reviews += "</ul>";
+  // console.log(reviews);
+  return reviews;
 };
 
 /* ****************************************
