@@ -306,7 +306,14 @@ accountController.buildEditReview = async function (req, res) {
   });
   let inventory = await inventoryModel.getInventoryById(review.inventory_id);
   res.render("account/editReview", {
-    title: "Edit " + inventory.inventory_year + " " + inventory.inventory_make + " " + inventory.inventory_model + " Review",
+    title:
+      "Edit " +
+      inventory.inventory_year +
+      " " +
+      inventory.inventory_make +
+      " " +
+      inventory.inventory_model +
+      " Review",
     nav,
     review,
     formattedDate,
@@ -334,11 +341,6 @@ accountController.editReview = async function (req, res) {
   );
   let reviews = await utilities.buildAccountReviews(reviewsData.rows, res);
 
-  // TODO: test account management from fancy type account => make sure other functionality works.
-  // TODO: get delete working
-  // TODO: "implement appropriate client and server-side validations for updated data." => make it only submit on change
-  // TODO: test frontend stuff or i'll get a B
-
   if (updateResult) {
     req.flash("notice", "Congratulations, your review has been updated.");
     res.status(201).render("account/management", {
@@ -350,7 +352,14 @@ accountController.editReview = async function (req, res) {
   } else {
     req.flash("notice", "Sorry, the review update failed.");
     res.status(501).render("account/editReview", {
-      title: "Edit " + inventory.inventory_year + " " + inventory.inventory_make + " " + inventory.inventory_model + " Review",
+      title:
+        "Edit " +
+        inventory.inventory_year +
+        " " +
+        inventory.inventory_make +
+        " " +
+        inventory.inventory_model +
+        " Review",
       nav,
       review,
       formattedDate,
@@ -358,5 +367,83 @@ accountController.editReview = async function (req, res) {
     });
   }
 };
+
+/* ****************************************
+ *  Build review delete view
+ * *************************************** */
+accountController.buildDeleteReview = async function (req, res) {
+  let nav = await utilities.getNav();
+  let review_id = req.params.reviewId;
+  const reviewData = await accountModel.getReviewById(review_id);
+  let review = reviewData.rows[0];
+  let formattedDate = review.review_date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  let inventory = await inventoryModel.getInventoryById(review.inventory_id);
+  res.render("account/deleteReview", {
+    title:
+      "Delete " +
+      inventory.inventory_year +
+      " " +
+      inventory.inventory_make +
+      " " +
+      inventory.inventory_model +
+      " Review",
+    nav,
+    review,
+    formattedDate,
+    errors: null,
+  });
+};
+
+/* ****************************************
+ *  Process review delete
+ * *************************************** */
+accountController.deleteReview = async function (req, res) {
+  let nav = await utilities.getNav();
+  const { review_id } = req.body;
+  const reviewData = await accountModel.getReviewById(review_id);
+  let review = reviewData.rows[0];
+  let formattedDate = review.review_date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const deleteResult = await accountModel.deleteReview(review_id);
+
+  let reviewsData = await accountModel.getReviewsByAccountId(
+    res.locals.accountData.account_id
+  );
+  let reviews = await utilities.buildAccountReviews(reviewsData.rows, res);
+
+  if (deleteResult) {
+    req.flash("notice", "Your review has been deleted.");
+    res.status(201).render("account/management", {
+      title: "Account Management",
+      nav,
+      reviews,
+      formattedDate,
+      errors: null,
+    });
+  } else {
+    req.flash("notice", "Sorry, the review delete failed.");
+    res.status(501).render("account/deleteReview", {
+      title:
+        "Delete " +
+        inventory.inventory_year +
+        " " +
+        inventory.inventory_make +
+        " " +
+        inventory.inventory_model +
+        " Review",
+      nav,
+      review,
+      formattedDate,
+      errors: null,
+    });
+  }
+}
 
 module.exports = accountController;

@@ -11,7 +11,10 @@
 </ul>
 <% } %>
 
-<form action="/account/editReview" method="post">
+<form id="deleteForm" action="/account/deleteReview" method="post">
+  <p class="important">
+    Please confirm. A delete cannot be undone.
+  </p>
   <p class="form-pair">
     <label for="review_date">Review Date:</label>
     <input
@@ -22,14 +25,14 @@
       readonly
     />
   </p>
-  <p class="form-pa">
+  <p class="form-pair">
     <label for="review_text">Review Text:</label>
-    <textarea name="review_text" id="review_text" cols="30" rows="10" required>
+    <textarea name="review_text" id="review_text" cols="30" rows="10" readonly>
 <%= review.review_text %></textarea
     >
   </p>
   <input type="hidden" name="review_id" value="<%= review.review_id %>" />
   <input type="hidden" name="account_id" value="<%= review.account_id %>" />
   <input type="hidden" name="inventory_id" value="<%= review.inventory_id %>" />
-  <button type="submit" class="form-button">Update Review</button>
+  <button type="submit" class="form-button">Delete Review</button>
 </form>

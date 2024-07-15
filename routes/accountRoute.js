@@ -57,7 +57,11 @@ router.post("/editReview",
   accountValidation.reviewRules(),
   utilities.handleErrors(accountController.editReview))
 
+// Build review delete view
+router.get("/deleteReview/:reviewId", utilities.handleErrors(accountController.buildDeleteReview))
+
 // Process review delete
+router.post("/deleteReview", utilities.handleErrors(accountController.deleteReview))
 
 
 module.exports = router;

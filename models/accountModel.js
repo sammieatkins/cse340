@@ -150,6 +150,15 @@ async function updateReview(review_id, review_text) {
   }
 }
 
+async function deleteReview(review_id) {
+  try {
+    const sql = "DELETE FROM review WHERE review_id = $1"
+    return await pool.query(sql, [review_id])
+  } catch (error) {
+    return error.message;
+  }
+}
+
 // export functions
 module.exports = {
   getAccounts,
@@ -162,4 +171,5 @@ module.exports = {
   getReviewsByAccountId,
   getReviewById,
   updateReview,
+  deleteReview,
 };

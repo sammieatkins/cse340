@@ -103,3 +103,8 @@ const host = process.env.HOST
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`)
 })
+
+  // TODO: test account management from fancy type account => make sure other functionality works.
+  // TODO: get delete working
+  // TODO: "implement appropriate client and server-side validations for updated data." => make it only submit on change
+  // TODO: test frontend stuff or i'll get a B
