@@ -129,6 +129,27 @@ async function getReviewsByAccountId(account_id) {
   }
 }
 
+/* *****************************
+ * Get reviews by review_id
+ * *************************** */
+async function getReviewById(review_id) {
+  try {
+    const sql = "SELECT * FROM review WHERE review_id = $1";
+    return await pool.query(sql, [review_id]);
+  } catch (error) {
+    return error.message;
+  }
+}
+
+async function updateReview(review_id, review_text) {
+  try {
+    const sql = "UPDATE review SET review_text = $1 WHERE review_id = $2 RETURNING *";
+    return await pool.query(sql, [review_text, review_id]);
+  } catch (error) {
+    return error.message;
+  }
+}
+
 // export functions
 module.exports = {
   getAccounts,
@@ -139,4 +160,6 @@ module.exports = {
   updateAccount,
   updatePassword,
   getReviewsByAccountId,
+  getReviewById,
+  updateReview,
 };

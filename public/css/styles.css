@@ -7,6 +7,15 @@
   box-sizing: border-box;
 }
 
+input:read-only {
+  background-color: #f0f0f0; /* Light grey background */
+  color: #333333; /* Dark text color */
+  border: 1px solid #cccccc; /* Light grey border */
+  padding: 8px;
+  font-size: 16px;
+  cursor: not-allowed; /* Show the cursor as not-allowed */
+}
+
 body {
   background-color: white;
   font-family: Roboto;
@@ -364,7 +373,7 @@ input:focus:valid, textarea:focus:valid, select:focus:valid {
   font-weight: normal;
   font-size: 1em;
 }
-form h3 {
+form h1, form h2, form h3 {
   color: white;
   margin-bottom: 0;
 }

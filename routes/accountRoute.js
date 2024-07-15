@@ -49,11 +49,15 @@ router.post("/editPassword",
   accountValidation.passwordRules(),
   utilities.handleErrors(accountController.editPassword))
 
+// Build review edit view
+router.get("/editReview/:reviewId", utilities.handleErrors(accountController.buildEditReview))
+
 // Process review edit
 router.post("/editReview",
   accountValidation.reviewRules(),
   utilities.handleErrors(accountController.editReview))
 
 // Process review delete
+
 
 module.exports = router;

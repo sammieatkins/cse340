@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const utilities = require("../utilities/index.js");
 const accountModel = require("../models/accountModel.js");
+const inventoryModel = require("../models/inventoryModel.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -114,7 +115,7 @@ accountController.loginAccount = async function (req, res) {
  * ************************************ */
 accountController.accountLogin = async function (req, res) {
   let nav = await utilities.getNav();
-  const { account_email, account_password, } = req.body;
+  const { account_email, account_password } = req.body;
   const accountData = await accountModel.getAccountByEmail(account_email);
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.");
@@ -166,11 +167,10 @@ accountController.accountLogout = async function (req, res) {
 
 accountController.buildManagement = async function (req, res) {
   let nav = await utilities.getNav();
-  // console.log("res.locals.accountData" + res.locals.accountData)
-  let reviewsData = await accountModel.getReviewsByAccountId(res.locals.accountData.account_id);
-  console.log("reviewsData........", reviewsData.rows)
+  let reviewsData = await accountModel.getReviewsByAccountId(
+    res.locals.accountData.account_id
+  );
   let reviews = await utilities.buildAccountReviews(reviewsData.rows, res);
-  console.log("reviews........", reviews)
   res.render("account/management", {
     title: "Account Management",
     nav,
@@ -198,39 +198,45 @@ accountController.buildEditAccountView = async function (req, res) {
  * *************************************** */
 accountController.editAccount = async function (req, res) {
   let nav = await utilities.getNav();
-  const { account_firstname, account_lastname, account_email, account_password, account_id } = req.body;
+  const {
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_password,
+    account_id,
+  } = req.body;
   const accountData = await accountModel.getAccountById(account_id);
   const updateResult = await accountModel.updateAccount(
     account_firstname,
     account_lastname,
     account_email,
-    account_id,
+    account_id
   );
 
   if (updateResult) {
     req.flash(
-        "notice",
-        `Congratulations, ${account_firstname}. You have updated your account.`
+      "notice",
+      `Congratulations, ${account_firstname}. You have updated your account.`
     );
     res.clearCookie("jwt");
     const updatedAccountData = await accountModel.getAccountById(account_id);
     delete updatedAccountData.account_password;
     const accessToken = jwt.sign(
-        updatedAccountData,
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: 3600 }
+      updatedAccountData,
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: 3600 }
     );
     if (process.env.NODE_ENV === "development") {
-        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
     } else {
-        res.cookie("jwt", accessToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 3600 * 1000,
-        });
+      res.cookie("jwt", accessToken, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 3600 * 1000,
+      });
     }
     res.status(201).redirect("/account/");
-} else {
+  } else {
     req.flash("notice", "Sorry, the account update failed.");
     res.status(501).render("account/editAccount", {
       title: "Edit Account",
@@ -254,13 +260,22 @@ accountController.editPassword = async function (req, res) {
 
   const hashedPassword = bcrypt.hashSync(account_password, 10);
 
-  const updateResult = await accountModel.updatePassword(account_id, hashedPassword);
+  const updateResult = await accountModel.updatePassword(
+    account_id,
+    hashedPassword
+  );
+
+  let reviewsData = await accountModel.getReviewsByAccountId(
+    res.locals.accountData.account_id
+  );
+  let reviews = await utilities.buildAccountReviews(reviewsData.rows, res);
 
   if (updateResult) {
     req.flash("notice", "Congratulations, your password has been updated.");
     res.status(201).render("account/management", {
       title: "Account Management",
       nav,
+      reviews,
       errors: null,
     });
   } else {
@@ -277,9 +292,71 @@ accountController.editPassword = async function (req, res) {
 };
 
 /* ****************************************
-  *  Process review edit
-  * *************************************** */
-//  TODO: Add review edit functionality
+ *  Build review edit view
+ * *************************************** */
+accountController.buildEditReview = async function (req, res) {
+  let nav = await utilities.getNav();
+  let review_id = req.params.reviewId;
+  const reviewData = await accountModel.getReviewById(review_id);
+  let review = reviewData.rows[0];
+  let formattedDate = review.review_date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  let inventory = await inventoryModel.getInventoryById(review.inventory_id);
+  res.render("account/editReview", {
+    title: "Edit " + inventory.inventory_year + " " + inventory.inventory_make + " " + inventory.inventory_model + " Review",
+    nav,
+    review,
+    formattedDate,
+    errors: null,
+  });
+};
 
+/* ****************************************
+ *  Process review edit
+ * *************************************** */
+accountController.editReview = async function (req, res) {
+  let nav = await utilities.getNav();
+  const { review_id, review_text } = req.body;
+  const reviewData = await accountModel.getReviewById(review_id);
+  let review = reviewData.rows[0];
+  let formattedDate = review.review_date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const updateResult = await accountModel.updateReview(review_id, review_text);
+
+  let reviewsData = await accountModel.getReviewsByAccountId(
+    res.locals.accountData.account_id
+  );
+  let reviews = await utilities.buildAccountReviews(reviewsData.rows, res);
+
+  // TODO: test account management from fancy type account => make sure other functionality works.
+  // TODO: get delete working
+  // TODO: "implement appropriate client and server-side validations for updated data." => make it only submit on change
+  // TODO: test frontend stuff or i'll get a B
+
+  if (updateResult) {
+    req.flash("notice", "Congratulations, your review has been updated.");
+    res.status(201).render("account/management", {
+      title: "Account Management",
+      nav,
+      reviews,
+      errors: null,
+    });
+  } else {
+    req.flash("notice", "Sorry, the review update failed.");
+    res.status(501).render("account/editReview", {
+      title: "Edit " + inventory.inventory_year + " " + inventory.inventory_make + " " + inventory.inventory_model + " Review",
+      nav,
+      review,
+      formattedDate,
+      errors: null,
+    });
+  }
+};
 
 module.exports = accountController;

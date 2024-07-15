@@ -71,8 +71,8 @@ inventoryController.addReview = async function (req, res) {
   // console.log("singleView: ", singleView)
   let reviewsData = await inventoryModel.getReviewsByInventoryId(inventoryId);
   // console.log("reviewsData: ", reviewsData)
-  let reviews = await utilities.buildReviews(reviewsData, req);
-  console.log("reviews: ", reviews)
+  let reviews = await utilities.buildInventoryReviews(reviewsData, res);
+  // console.log("reviews: ", reviews)
 
 
   if (reviewResult) {

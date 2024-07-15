@@ -160,6 +160,7 @@ async function getReviewsByInventoryId(inventory_id) {
 }
 
 async function addReview(review_text, inventory_id, account_id) {
+  // console.log("in inventory model addReview, inventory_id: ", inventory_id)
   try {
     const sql = `INSERT INTO public.review (review_text, inventory_id, account_id) VALUES ($1, $2, $3)`;
     const data = await pool.query(sql, [
