@@ -49,4 +49,11 @@ router.post("/editPassword",
   accountValidation.passwordRules(),
   utilities.handleErrors(accountController.editPassword))
 
+// Process review edit
+router.post("/editReview",
+  accountValidation.reviewRules(),
+  utilities.handleErrors(accountController.editReview))
+
+// Process review delete
+
 module.exports = router;

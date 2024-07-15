@@ -87,6 +87,7 @@ footer a {
   display: flex;
   justify-content: space-between;
   margin: 10px;
+  align-items: center;
 }
 
 .hero {
@@ -376,9 +377,23 @@ form ul {
   display: block;
 }
 
-/* REVIEWS */
-.reviews li {
-  
+/* REVIEW LIST */
+.reviewList li {
+  list-style: none;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  width: max-content;
+}
+.reviewList li h3 {
+  /* line underneath with buffer */
+  border-bottom: 1px solid #004463;
+  padding: 3px;
+  margin-bottom: 5px;
+}
+.reviewList li p {
+  margin: 0;
+  padding: 0;
 }
 
 /* MEDIA QUERY */

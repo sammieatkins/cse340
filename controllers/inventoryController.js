@@ -26,14 +26,14 @@ inventoryController.buildByClassificationId = async function (req, res, next) {
 /* ***************************
  *  Build single view for inventory item
  * ************************** */
-inventoryController.buildSingleView = async function (req, res, next) {
+inventoryController.buildSingleView = async function (req, res) {
   const inventory_id = req.params.inventoryId;
   const singleData = await inventoryModel.getInventoryById(inventory_id);
   let nav = await utilities.getNav();
   let singleView = await utilities.buildSingleView(singleData);
   // add reviews
   let reviewsData = await inventoryModel.getReviewsByInventoryId(inventory_id);
-  let reviews = await utilities.buildReviews(reviewsData);
+  let reviews = await utilities.buildInventoryReviews(reviewsData, res);
   res.render("./inventory/single", {
     title: singleData.inventory_make + " " + singleData.inventory_model,
     nav,
@@ -71,7 +71,7 @@ inventoryController.addReview = async function (req, res) {
   // console.log("singleView: ", singleView)
   let reviewsData = await inventoryModel.getReviewsByInventoryId(inventoryId);
   // console.log("reviewsData: ", reviewsData)
-  let reviews = await utilities.buildReviews(reviewsData);
+  let reviews = await utilities.buildReviews(reviewsData, req);
   console.log("reviews: ", reviews)
 
 

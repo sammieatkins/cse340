@@ -109,30 +109,57 @@ Utilities.buildSingleView = async function (data) {
 };
 
 /* ****************************************
- * Build the reviews HTML
+ * Build the reviews HTML for the inventory view
  **************************************** */
-Utilities.buildReviews = async function (data) {
-  let reviews = "<ul class='reviews'>";
-
-  for (const review of data) {
-    let accountData = await accountModel.getAccountById(review.account_id);
-    let screenName = accountData.account_firstname[0] + ' ' + accountData.account_lastname;
-    let formattedDate = review.review_date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+Utilities.buildInventoryReviews = async function (reviewsData, res) {
+  let reviews = "<ul class='reviewList'>";
+  let screenName =
+    res.locals.accountData.account_firstname[0] +
+    " " +
+    res.locals.accountData.account_lastname;
+  reviewsData.forEach((review) => {
+    let formattedDate = review.review_date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
-
     reviews += "<li>";
-    reviews += "<h3>" + screenName + "wrote on " + formattedDate + "</h3>";
+    reviews += "<h3>" + screenName + " wrote on " + formattedDate + "</h3>";
     reviews += "<p>" + review.review_text + "</p>";
     reviews += "</li>";
-  }
-
+  });
   reviews += "</ul>";
-  // console.log(reviews);
   return reviews;
 };
+
+/* ****************************************
+ * Build the reviews HTML for the management view
+ **************************************** */
+Utilities.buildAccountReviews = async function (reviewsData, res) {
+  let reviews = "<ul class='reviewList'>";
+  reviewsData.forEach((review) => {
+    let screenName =
+      res.locals.accountData.account_firstname[0] +
+      " " +
+      res.locals.accountData.account_lastname;
+    let formattedDate = review.review_date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    reviews += "<li>";
+    reviews += "<h3>" + screenName + " wrote on " + formattedDate + "</h3>";
+    reviews += "<p>" + review.review_text + "</p>";
+
+    // only difference *eyeroll* = edit and delete links
+    reviews += '<a href="/account/editReview/' + review.review_id + '">| Edit |</a>';
+    reviews += '<a href="/account/deleteReview/' + review.review_id + '"> Delete | </a>';
+
+    reviews += "</li>";
+  });
+  reviews += "</ul>";
+  return reviews;
+}
 
 /* ****************************************
  * Classification List (for dropdown)

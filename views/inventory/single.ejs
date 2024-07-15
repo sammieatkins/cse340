@@ -17,11 +17,11 @@
     <%- reviews %>
 <% } %>
 
-<!-- Review -->
+<!-- Review Form-->
 <% if(locals.loggedin) { %>
   <form action="/inv/review/<%= inventoryId %>" method="post">
     <h3>Add Review</h3>
-
+    <!-- <% console.log(locals.accountData.account_firstname) %> -->
     <!-- Screen Name -->
     <% let screenName = locals.accountData.account_firstname[0] + ' ' + locals.accountData.account_lastname %>
     <label for="screenName">Screen Name:</label>

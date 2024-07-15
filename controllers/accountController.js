@@ -166,8 +166,11 @@ accountController.accountLogout = async function (req, res) {
 
 accountController.buildManagement = async function (req, res) {
   let nav = await utilities.getNav();
+  // console.log("res.locals.accountData" + res.locals.accountData)
   let reviewsData = await accountModel.getReviewsByAccountId(res.locals.accountData.account_id);
-  let reviews = await utilities.buildReviews(reviewsData.rows);
+  console.log("reviewsData........", reviewsData.rows)
+  let reviews = await utilities.buildAccountReviews(reviewsData.rows, res);
+  console.log("reviews........", reviews)
   res.render("account/management", {
     title: "Account Management",
     nav,
@@ -272,5 +275,11 @@ accountController.editPassword = async function (req, res) {
     });
   }
 };
+
+/* ****************************************
+  *  Process review edit
+  * *************************************** */
+//  TODO: Add review edit functionality
+
 
 module.exports = accountController;
