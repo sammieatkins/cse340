@@ -33,7 +33,6 @@ inventoryController.buildSingleView = async function (req, res) {
   let singleView = await utilities.buildSingleView(singleData);
   // add reviews
   let reviewsData = await inventoryModel.getReviewsByInventoryId(inventory_id);
-  console.log(reviewsData)
   let reviews = await utilities.buildInventoryReviews(reviewsData, res);
   res.render("./inventory/single", {
     title: singleData.inventory_make + " " + singleData.inventory_model,
