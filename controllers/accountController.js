@@ -424,7 +424,6 @@ accountController.deleteReview = async function (req, res) {
       title: "Account Management",
       nav,
       reviews,
-      formattedDate,
       errors: null,
     });
   } else {
