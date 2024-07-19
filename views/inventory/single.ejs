@@ -31,12 +31,12 @@
 
     <!-- Review Text -->
     <label for="review_text">Review:</label>
-    <textarea name="review_text" id="review_text" cols="30" rows="10"></textarea>
+    <textarea name="review_text" id="review_text" cols="30" rows="10" required></textarea>
 
     <!-- Hidden inventory_id field -->
     <input type="hidden" name="inventoryId" value="<%= inventoryId %>">
 
-    <!-- hidden account_id field -->
+    <!-- Hidden account_id field -->
     <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
 
     <!-- Submit -->
