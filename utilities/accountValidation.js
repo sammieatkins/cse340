@@ -1,6 +1,7 @@
 const utilities = require(".");
 const { body, validationResult } = require("express-validator");
 const accountModel = require("../models/accountModel");
+const inventoryModel = require("../models/inventoryModel");
 const validate = {};
 
 /* ******************************
@@ -186,13 +187,75 @@ validate.accountRules = () => {
 validate.reviewRules = () => {
   return [
     // review is required and must be string
-    body("review")
+    body("review_text")
       .trim()
       .escape()
       .notEmpty()
       .isLength({ min: 1 })
       .withMessage("Please provide a review."), // on error this message is sent.
   ];
-}
+};
+
+/* ******************************
+ * Check Review Data (edit)
+ * ***************************** */
+validate.checkEditReview = async (req, res, next) => {
+  const { review_id } = req.body;
+  const reviewData = await accountModel.getReviewById(review_id);
+  let review = reviewData.rows[0];
+  let inventory = await inventoryModel.getInventoryById(review.inventory_id);
+  let formattedDate = review.review_date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  let errors = [];
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    res.render("account/editReview", {
+      title:
+        "Edit " +
+        inventory.inventory_year +
+        " " +
+        inventory.inventory_make +
+        " " +
+        inventory.inventory_model +
+        " Review",
+      nav,
+      review,
+      formattedDate,
+      errors,
+    });
+    return;
+  }
+  next();
+};
+
+validate.checkNewReview = async (req, res, next) => {
+  const { inventoryId } = req.body;
+  console.log(`inventoryId: ${inventoryId}`);
+  // const reviewData = await accountModel.getReviewById(review_id);
+  const singleData = await inventoryModel.getInventoryById(inventoryId);
+  let singleView = await utilities.buildSingleView(singleData);
+  let reviewsData = await inventoryModel.getReviewsByInventoryId(inventoryId);
+  let reviews = await utilities.buildInventoryReviews(reviewsData, res);
+  let errors = [];
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    res.render("inventory/single", {
+      title: singleData.inventory_make + " " + singleData.inventory_model,
+      nav,
+      inventoryId,
+      singleView,
+      reviewsData,
+      reviews,
+      errors,
+    });
+    return;
+  }
+  next();
+};
 
 module.exports = validate;

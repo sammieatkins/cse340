@@ -55,6 +55,7 @@ router.get("/editReview/:reviewId", utilities.handleErrors(accountController.bui
 // Process review edit
 router.post("/editReview",
   accountValidation.reviewRules(),
+  accountValidation.checkEditReview,
   utilities.handleErrors(accountController.editReview))
 
 // Build review delete view

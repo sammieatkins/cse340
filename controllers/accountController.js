@@ -336,6 +336,8 @@ accountController.editReview = async function (req, res) {
   });
   const updateResult = await accountModel.updateReview(review_id, review_text);
 
+  let inventory = await inventoryModel.getInventoryById(review.inventory_id);
+
   let reviewsData = await accountModel.getReviewsByAccountId(
     res.locals.accountData.account_id
   );
@@ -343,12 +345,7 @@ accountController.editReview = async function (req, res) {
 
   if (updateResult) {
     req.flash("notice", "Congratulations, your review has been updated.");
-    res.status(201).render("account/management", {
-      title: "Account Management",
-      nav,
-      reviews,
-      errors: null,
-    });
+    res.status(201).redirect("/account/");
   } else {
     req.flash("notice", "Sorry, the review update failed.");
     res.status(501).render("account/editReview", {
